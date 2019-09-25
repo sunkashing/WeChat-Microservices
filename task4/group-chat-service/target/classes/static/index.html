@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WeCloudChat - CMU</title>
+        <link rel="icon" type="image/jpg" href="favicon.jpg"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+        <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        <script src="/app.js"></script>
+    </head>
+    <body>
+
+        <div class="col-12 frame scrollbar-dusty-grass">
+            <ul id="chat-room"></ul>
+            <br>
+            <br>
+            <div>
+                <div class="msj-input">
+                    <div class="text text-r" style="background:whitesmoke">
+                        <input class="mytext" maxlength="140" id="chat-message" placeholder="Type a message"/>
+                    </div>
+
+                </div>
+                <div style="padding:13px;">
+                    <span class="glyphicon glyphicon-share-alt" id="send-msg"></span>
+                </div>
+
+                <!-- Default dropup button -->
+                <div class="dropup" style="padding:15px; margin-top: 10px">
+                    <button class="btn btn-default dropdown-toggle glyphicon glyphicon-user" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu2" id="profile-drop-down">
+                        <li role="separator" class="divider"></li>
+                        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                    </ul>
+                </div>
+                <div style="margin-top: 10px">
+                    <h2>WeCloudChat</h2>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <style>
+        .mytext {
+            border: 0;
+            padding: 10px;
+            background: whitesmoke;
+        }
+
+        .text {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: -15px;
+        }
+
+        .text > p:first-of-type {
+            width: 100%;
+            margin-top: 0;
+            margin-bottom: auto;
+            line-height: 13px;
+            font-size: 12px;
+        }
+
+        .text > p:last-of-type {
+            width: 100%;
+            text-align: right;
+            color: silver;
+            margin-bottom: -7px;
+            margin-top: 7px;
+        }
+
+        .text-l {
+            float: left;
+            width: 100%;
+            padding-right: 10px;
+        }
+
+        .text-r {
+            float: right;
+            width: 100%;
+            padding-left: 10px;
+            margin-top: -15px;
+        }
+
+        .avatar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-right: 10px;
+        }
+
+        .macro {
+            margin-top: 10px;
+            /*width: 75%;*/
+            height: 10%;
+            border-radius: 5px;
+            padding: 30px;
+            display: flex;
+        }
+
+        .msj-rta {
+            float: right;
+            background: #13bf26;
+        }
+
+        .msj {
+            float: left;
+            background: white;
+        }
+
+        .frame {
+            height: 450px;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .frame > div:last-of-type {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+        }
+
+        #send-msg {
+            background: whitesmoke;
+            padding: 10px;
+            font-size: 21px;
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+
+        #chat-room {
+            background:#e0e0de;
+            width: 100%;
+            list-style-type: none;
+            padding: 18px;
+            position: absolute;
+            bottom: 47px;
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            overflow-y: scroll;
+        }
+
+        .msj-input {
+            margin-top: 30px;
+            width: 75%;
+            height: 10%;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            float: left;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        h2 {
+            font: 100 25px/1.3 'Berkshire Swash', Helvetica, sans-serif;
+            color: #2b2b2b;
+            text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);
+        }
+
+        #profile-button {
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+            outline:none;
+        }
+
+        .dropdown-menu {
+            width: 200px !important;
+        }
+
+        .scrollable-menu {
+            height: auto;
+            max-height: 400px;
+            overflow-x: hidden;
+        }
+
+    </style>
+</html>
